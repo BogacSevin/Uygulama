@@ -17,7 +17,7 @@
       <td>{{ countrys.name }}</td>
       <td>{{ countrys.capital }}</td>
       <td>{{ countrys.region }}</td>
-      <td>{{ countrys.flag }}</td>
+     <td> <img v-bind:src="countrys.flag" width="80px" height="80px"> </td>
     </tr>
   </table>
 </template>
