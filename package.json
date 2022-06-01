@@ -17,6 +17,7 @@
     "vue-good-table": "^2.21.11"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.182",
     "@vue/cli-plugin-babel": "~4.5.13",
     "@vue/cli-plugin-eslint": "~4.5.13",
     "@vue/cli-service": "~4.5.13",
