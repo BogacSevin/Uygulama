@@ -53,13 +53,39 @@ export default {
         var rB = null;
         var rBfilters = [];
 
-       if(!_.isUndefined(o.regionalBlocs)) {
+        var cS = null;
+        var cSfilters =[];
+
+        var lG = null;
+        var lGfilters =[];
+
+        var cR = null;
+        var cRfilters = [];
+
+       if(!_.isUndefined(o.currencies)) {
+          cS = o.currencies;
+          cSfilters = _.filter(o.currencies, (cSc) => {
+            return cSc.code.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0
+          })
+        }
+        if(!_.isUndefined(o.languages)) {
+          lG = o.languages;
+          lGfilters = _.filter(o.languages, (lGc) => {
+            return lGc.name.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0
+          })
+        }
+        if(!_.isUndefined(o.regionalBlocs)) {
           rB = o.regionalBlocs;
           rBfilters = _.filter(o.regionalBlocs, (rBc) => {
             return rBc.name.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0
           })
         }
-
+        if(!_.isUndefined(o.currencies)) {
+          cR = o.currencies;
+          cRfilters = _.filter(o.currencies, (cRc) => {
+            return cRc.name.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0
+          })
+        }
         //console.log(!_.isNull(rB) ? rBfilters.length > 0 : false);
         
         return (
@@ -72,7 +98,14 @@ export default {
            (  
             o.subregion ? o.subregion.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0 : null
           )
-          || !_.isNull(rB) ? rBfilters.length > 0 : false
+          || 
+          (  
+            o.demonym ? o.demonym.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0 : null
+          )
+          || ( !_.isNull(rB) ? rBfilters.length > 0 : false )
+          || ( !_.isNull(cS) ? cSfilters.length > 0 : false )
+          || ( !_.isNull(lG) ? lGfilters.length > 0 : false )
+          || ( !_.isNull(cR) ? cRfilters.length > 0 : false )
         );
       });  
     },
