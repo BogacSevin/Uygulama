@@ -49,63 +49,56 @@ export default {
       return _.filter(this.country, (o) => { 
         if(this.filter == '') 
           return true;
+        
+        var rB = null;
+        var rBfilters = [];
 
-        return ( 
+       if(!_.isUndefined(o.regionalBlocs)) {
+          rB = o.regionalBlocs;
+          rBfilters = _.filter(o.regionalBlocs, (rBc) => {
+            return rBc.name.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0
+          })
+        }
+
+        //console.log(!_.isNull(rB) ? rBfilters.length > 0 : false);
+        
+        return (
           o.name.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0
           || o.region.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0
           || (
             o.capital ? o.capital.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0 : null
           )
+          || 
+           (  
+            o.subregion ? o.subregion.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0 : null
+          )
+          || !_.isNull(rB) ? rBfilters.length > 0 : false
         );
-
-      });
+      });  
     },
   },
   created:function() {
     axios.get("https://restcountries.com/v2/all").then((res) => {
         this.country = res.data;
+        //console.log(this.filteredTable);
       });
-  },
+        },
   methods: {
     Api() {
       axios.get("https://restcountries.com/v2/all").then((res) => {
         this.country = res.data;
-        console.log(this.countrys);
+        //console.log(this.countrys);
       });
     },
     myFunction() {
       var table, tr, td, i, txtValue;
-
       table = document.getElementById("myTable");
       tr = table.getElementsByTagName("tr");
-      
       for (i = 0; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td")[1];
         if (td) {
           txtValue = td.textContent || td.innerText;
-        
           if (txtValue.toLocaleLowerCase('tr').includes(this.filterCapital.toLocaleLowerCase('tr'))) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    },
-    searchAll() {
-      var input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("myInput1");
-      filter = input.value;
-      table = document.getElementById("myTable");
-      tr = table.getElementsByTagName("tr");
-      
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          filter=filter.replace("İ","i").replace("ı","i");
-          console.log(filter);
-          if (txtValue.toLowerCase().includes(filter.toLowerCase())) {
             tr[i].style.display = "";
           } else {
             tr[i].style.display = "none";
@@ -168,3 +161,18 @@ export default {
   background-color: #f1f1f1;
 }
 </style>
+<!-- -----
+return _.filter(this.country, (o) => { 
+ 
+        if(this.filter == o.regionalBlocs[0].name) 
+        return true;
+          return ( 
+          o.name.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0
+          || o.region.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0
+          || (
+            o.capital ? o.capital.toLocaleLowerCase('tr').indexOf(this.filter.toLocaleLowerCase('tr')) >= 0 : null
+          )
+        );
+        
+      });
+-->
